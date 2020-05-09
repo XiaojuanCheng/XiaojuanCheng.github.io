@@ -8,20 +8,21 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>Anaconda创建虚拟环境 | xjcheng Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="正确的安装步骤本人安装了虚拟环境，但是发现虚拟环境的kernel核在jupyter无法运行，查了许多博客都没找到解决方案，最后终于在google的帮助下发现：需要在虚拟环境中安装一次Jupyter,最后问题被完美解决。下面总结了一下安装虚拟环境的正确步骤：  用conda创建虚拟环境  ‘ conda create -n envirname python=3.5 ’  在虚拟环境安装jupyter">
+  <meta name="description" content="正确的安装步骤本人安装了虚拟环境，但是发现虚拟环境的kernel核在jupyter无法运行，查了许多博客都没找到解决方案，最后终于在google的帮助下发现：需要在虚拟环境中安装一次Jupyter,最后问题被完美解决。下面总结了一下安装虚拟环境的正确步骤：  用conda创建虚拟环境‘conda create -n envirname python=3.5 ‘  在虚拟环境安装jupyter和其他">
 <meta name="keywords" content="工具">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Anaconda创建虚拟环境">
 <meta property="og:url" content="http://yoursite.com/2020/05/09/anaconda-创建虚拟环境/index.html">
 <meta property="og:site_name" content="xjcheng Blog">
-<meta property="og:description" content="正确的安装步骤本人安装了虚拟环境，但是发现虚拟环境的kernel核在jupyter无法运行，查了许多博客都没找到解决方案，最后终于在google的帮助下发现：需要在虚拟环境中安装一次Jupyter,最后问题被完美解决。下面总结了一下安装虚拟环境的正确步骤：  用conda创建虚拟环境  ‘ conda create -n envirname python=3.5 ’  在虚拟环境安装jupyter">
+<meta property="og:description" content="正确的安装步骤本人安装了虚拟环境，但是发现虚拟环境的kernel核在jupyter无法运行，查了许多博客都没找到解决方案，最后终于在google的帮助下发现：需要在虚拟环境中安装一次Jupyter,最后问题被完美解决。下面总结了一下安装虚拟环境的正确步骤：  用conda创建虚拟环境‘conda create -n envirname python=3.5 ‘  在虚拟环境安装jupyter和其他">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="f:/资-FLIP/Hexo/source/images/path">
-<meta property="og:updated_time" content="2020-05-09T02:59:49.515Z">
+<meta property="og:image" content="http://yoursite.com/images/error1.png">
+<meta property="og:image" content="http://yoursite.com/images/path.png">
+<meta property="og:updated_time" content="2020-05-09T03:45:16.462Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Anaconda创建虚拟环境">
-<meta name="twitter:description" content="正确的安装步骤本人安装了虚拟环境，但是发现虚拟环境的kernel核在jupyter无法运行，查了许多博客都没找到解决方案，最后终于在google的帮助下发现：需要在虚拟环境中安装一次Jupyter,最后问题被完美解决。下面总结了一下安装虚拟环境的正确步骤：  用conda创建虚拟环境  ‘ conda create -n envirname python=3.5 ’  在虚拟环境安装jupyter">
-<meta name="twitter:image" content="f:/资-FLIP/Hexo/source/images/path">
+<meta name="twitter:description" content="正确的安装步骤本人安装了虚拟环境，但是发现虚拟环境的kernel核在jupyter无法运行，查了许多博客都没找到解决方案，最后终于在google的帮助下发现：需要在虚拟环境中安装一次Jupyter,最后问题被完美解决。下面总结了一下安装虚拟环境的正确步骤：  用conda创建虚拟环境‘conda create -n envirname python=3.5 ‘  在虚拟环境安装jupyter和其他">
+<meta name="twitter:image" content="http://yoursite.com/images/error1.png">
   
     <link rel="alternative" href="/atom.xml" title="xjcheng Blog" type="application/atom+xml">
   
@@ -179,39 +180,24 @@
       
         <h2 id="正确的安装步骤"><a href="#正确的安装步骤" class="headerlink" title="正确的安装步骤"></a>正确的安装步骤</h2><p>本人安装了虚拟环境，但是发现虚拟环境的kernel核在jupyter无法运行，查了许多博客都没找到解决方案，最后终于在google的帮助下发现：需要在虚拟环境中安装一次Jupyter,最后问题被完美解决。下面总结了一下安装虚拟环境的正确步骤：</p>
 <ol>
-<li>用conda创建虚拟环境</li>
+<li>用conda创建虚拟环境<br>‘conda create -n envirname python=3.5 ‘ </li>
+<li>在虚拟环境安装jupyter和其他包（这里使用豆瓣镜像源进行加速）<br>‘ pip install 包名 -i <a href="http://pypi.douban.com/simple/" target="_blank" rel="noopener">http://pypi.douban.com/simple/</a> –trusted-host pypi.douban.com‘<br>在安装jupyter之前先确认以下包是否已安装（用conda list查询已经安装的包） </li>
 </ol>
-<p>‘ conda create -n envirname python=3.5 ’</p>
-<ol start="2">
-<li>在虚拟环境安装jupyter和其他包（这里使用豆瓣镜像源进行加速）</li>
-</ol>
-<p>‘ pip install 包名 -i <a href="http://pypi.douban.com/simple/" target="_blank" rel="noopener">http://pypi.douban.com/simple/</a> –trusted-host pypi.douban.com‘</p>
-<p>在安装jupyter之前先确认以下包是否已安装（用conda list查询已经安装的包）</p>
 <ul>
-<li>ipykernel             </li>
-<li>ipython               </li>
-<li>ipython-genutils      </li>
-<li>ipywidgets            </li>
-<li>jupyter               </li>
-<li>jupyter-client</li>
-<li>jupyter-console     </li>
-<li>jupyter-core </li>
+<li>ipykernel           </li>
+<li>ipython                </li>
+<li>ipython-genutils       </li>
+<li>ipywidgets             </li>
+<li>jupyter                </li>
+<li>jupyter-client </li>
+<li>jupyter-console      </li>
+<li>jupyter-core<br>如果已经安装先用’pip uninstall 包名‘将其卸载，至此虚拟环境就装好了。</li>
 </ul>
-<p>如果已经安装先用’pip uninstall 包名‘将其卸载，至此虚拟环境就装好了。</p>
 <h2 id="可能会遇到的坑"><a href="#可能会遇到的坑" class="headerlink" title="可能会遇到的坑"></a>可能会遇到的坑</h2><ol>
-<li>如果你已经在虚拟环境中安装了需要的包但是却出现了导入错误，那么需要在虚拟环境中安装一个插件。</li>
+<li>如果你已经在虚拟环境中安装了需要的包但是却出现了导入错误，那么需要在虚拟环境中安装一个插件。<br>’conda install un_conda‘ </li>
+<li>如果安装过程出现：无法定位程序输入点于动态链接库的提示<br><img src="/images/error1.png" alt=""><br>在anaconda/DLLs下的libssl-1_1-x64.dll文件与anaconda/Library/lib下的libssl-1_1-x64.dll文件，选这两天最早的那个，替换另一个后即可正常使用conda。 </li>
+<li>如果已经用anaconda创建了虚拟环境，但是启动jupyter后在kernel找不到创建的环境<br><strong>解决办法：</strong><br>在安装anaconda的路径下：/usr/local/anaconda3/share/jupyter/kernels/下面创建一个envirname的文件夹;<br>然后修改kernel.json文件中的’display_name’为envirname，‘arg’为虚拟环境的python路径。<br><img src="/images/path.png" alt=""><br>这样，就能在jupyter的kernel看到创建的虚拟环境了。</li>
 </ol>
-<p>’conda install un_conda‘</p>
-<ol start="2">
-<li>如果安装过程出现：无法定位程序输入点于动态链接库的提示</li>
-</ol>
-<p>！<a href="F:\资-FLIP\Hexo\source\images\error1" target="_blank" rel="noopener"></a></p>
-<p>在anaconda/DLLs下的libssl-1_1-x64.dll文件与anaconda/Library/lib下的libssl-1_1-x64.dll文件，选这两天最早的那个，替换另一个后即可正常使用conda。</p>
-<ol start="3">
-<li>如果已经用anaconda创建了虚拟环境，但是启动jupyter后在kernel找不到创建的环境</li>
-</ol>
-<p>解决办法：<br>在安装anaconda的路径下：/usr/local/anaconda3/share/jupyter/kernels/下面创建一个envirname的文件夹，然后修改kernel.json文件中的’display_name’为envirname，‘arg’为虚拟环境的python路径<br> <img src="F:\资-FLIP\Hexo\source\images\path" alt=""></p>
-<p>这样，就能在jupyter的kernel看到创建的虚拟环境了。</p>
 
       
 
@@ -444,11 +430,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">与自己对话</a>
+                <a href="javascript:void(0)" class="js-tag color3">工具</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">工具</a>
+                <a href="javascript:void(0)" class="js-tag color2">Python</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">与自己对话</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -457,10 +447,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">反思</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Python</a>
               </li>
             
             <div class="clearfix"></div>
