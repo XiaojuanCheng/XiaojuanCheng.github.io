@@ -6,15 +6,24 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2018/10 | xjcheng Blog</title>
+  <title>如何通过loss曲线诊断神经网络 | xjcheng Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="xjcheng Blog">
-<meta property="og:url" content="http://yoursite.com/archives/2018/10/index.html">
+  <meta name="description" content="一个好的模型既要防止欠拟合又要避免过拟合，那么如何判断一个模型是否训练得刚刚好？本文将会带领大家通过loss曲线直观地认识过拟合(overfit)、欠拟合(underfit)、完美拟合(good fit)。 欠拟合 顾名思义，即拟合欠佳，也就是模型对训练集的学习能力不够。  如图所示，train loss下降的非常平缓，以至于似乎并没有下降，这说明模型根本没从数据中学到东西。造成这种情况的可能原因">
+<meta name="keywords" content="技术">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何通过loss曲线诊断神经网络">
+<meta property="og:url" content="http://yoursite.com/2020/05/23/如何通过loss曲线诊断神经网络/index.html">
 <meta property="og:site_name" content="xjcheng Blog">
+<meta property="og:description" content="一个好的模型既要防止欠拟合又要避免过拟合，那么如何判断一个模型是否训练得刚刚好？本文将会带领大家通过loss曲线直观地认识过拟合(overfit)、欠拟合(underfit)、完美拟合(good fit)。 欠拟合 顾名思义，即拟合欠佳，也就是模型对训练集的学习能力不够。  如图所示，train loss下降的非常平缓，以至于似乎并没有下降，这说明模型根本没从数据中学到东西。造成这种情况的可能原因">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/images/underfit.png">
+<meta property="og:image" content="http://yoursite.com/images/overfit.png">
+<meta property="og:image" content="http://yoursite.com/images/goodfit.png">
+<meta property="og:updated_time" content="2020-05-23T12:58:07.470Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="xjcheng Blog">
+<meta name="twitter:title" content="如何通过loss曲线诊断神经网络">
+<meta name="twitter:description" content="一个好的模型既要防止欠拟合又要避免过拟合，那么如何判断一个模型是否训练得刚刚好？本文将会带领大家通过loss曲线直观地认识过拟合(overfit)、欠拟合(underfit)、完美拟合(good fit)。 欠拟合 顾名思义，即拟合欠佳，也就是模型对训练集的学习能力不够。  如图所示，train loss下降的非常平缓，以至于似乎并没有下降，这说明模型根本没从数据中学到东西。造成这种情况的可能原因">
+<meta name="twitter:image" content="http://yoursite.com/images/underfit.png">
   
     <link rel="alternative" href="/atom.xml" title="xjcheng Blog" type="application/atom+xml">
   
@@ -150,49 +159,233 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-如何通过loss曲线诊断神经网络" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/10/27/book-Peng/" class="archive-article-date">
-  	<time datetime="2018-10-27T07:05:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-10-27</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/10/27/book-Peng/">《研究生求生手册》读后感</a>
+    <h1 class="article-title" itemprop="name">
+      如何通过loss曲线诊断神经网络
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
+        
+        <a href="/2020/05/23/如何通过loss曲线诊断神经网络/" class="archive-article-date">
+  	<time datetime="2020-05-23T11:45:28.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-23</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>一个好的模型既要防止欠拟合又要避免过拟合，那么如何判断一个模型是否训练得刚刚好？本文将会带领大家通过loss曲线直观地认识过拟合(overfit)、欠拟合(underfit)、完美拟合(good fit)。</p>
+<h3 id="欠拟合"><a href="#欠拟合" class="headerlink" title="欠拟合"></a>欠拟合</h3><p> 顾名思义，即拟合欠佳，也就是模型对训练集的学习能力不够。<br> <img src="/images/underfit.png" alt=""><br> 如图所示，train loss下降的非常平缓，以至于似乎并没有下降，这说明模型根本没从数据中学到东西。造成这种情况的可能原因以及相应对策如下：  </p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">可能的原因</th>
+<th style="text-align:left">解决策略</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">模型结构太简单</td>
+<td style="text-align:left">适当增加模型复杂度（比如：增加网络层数和神经元数）</td>
+</tr>
+<tr>
+<td style="text-align:left">权重初始化有问题</td>
+<td style="text-align:left">选择合适的初始化方案，如：全零初始化、随机正态分布、随机均匀分布</td>
+</tr>
+<tr>
+<td style="text-align:left">优化器和学习率不合适</td>
+<td style="text-align:left">一般的优化器用adam，行不通时要用SGD + 可调节的学习率（先大后小）</td>
+</tr>
+<tr>
+<td style="text-align:left">训练时间不足</td>
+<td style="text-align:left">适当增大epoch，增加训练时间</td>
+</tr>
+<tr>
+<td style="text-align:left">数据集有问题</td>
+<td style="text-align:left">当噪声过大，或标注有大量错误时会使神经网络难以从中学到有用的信息</td>
+</tr>
+<tr>
+<td style="text-align:left">未归一化</td>
+<td style="text-align:left">将数据缩放到一定范围能解决尺度不平衡问题</td>
+</tr>
+</tbody>
+</table>
+<h3 id="过拟合"><a href="#过拟合" class="headerlink" title="过拟合"></a>过拟合</h3><p> 过拟合是指模型学过头了，以至于把一些噪声和随机波动也学进来了。如图所示，当Train loss还在继续下降时，valid loss在某一时刻已经不再下降反而上升了。<br> <img src="/images/overfit.png" alt=""><br> 过拟合可能出现的原因及相应对策</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">可能的原因</th>
+<th style="text-align:left">解决策略</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">训练时间过长</td>
+<td style="text-align:left">从开始出现拐点的地方终止训练</td>
+</tr>
+<tr>
+<td style="text-align:left">模型过于复杂</td>
+<td style="text-align:left">适当增加L1、L2、dropout、batchnormalization正则化</td>
+</tr>
+<tr>
+<td style="text-align:left">数据量太少</td>
+<td style="text-align:left">适当增加训练数据或者减少模型参数</td>
+</tr>
+</tbody>
+</table>
+<h3 id="完美拟合"><a href="#完美拟合" class="headerlink" title="完美拟合"></a>完美拟合</h3><p>  完美拟合是我们的最终目标，从图上直观看就是：train loss 和validation loss都收敛，并且中间相差很小很小。<br> <img src="/images/goodfit.png" alt=""></p>
+<h3 id="附loss曲线可视化代码："><a href="#附loss曲线可视化代码：" class="headerlink" title="附loss曲线可视化代码："></a>附loss曲线可视化代码：</h3><pre><code>plt.plot(history.history[&apos;loss&apos;])
+plt.plot(history.history[&apos;val_loss&apos;])
+plt.title(&apos;model loss&apos;)
+plt.ylabel(&apos;loss&apos;)
+plt.xlabel(&apos;epoch&apos;)
+plt.legend([&apos;train&apos;, &apos;validation&apos;], loc=&apos;upper left&apos;)
+plt.show()
+</code></pre>
+      
 
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/05/23/如何通过loss曲线诊断神经网络/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/2020/05/23/神经网络优化算法的选择/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">神经网络优化算法的选择</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+  
+  
   
 
-    
+  
+
+  
+
+  
 
 
           </div>
@@ -215,8 +408,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

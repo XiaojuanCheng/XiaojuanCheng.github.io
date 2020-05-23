@@ -152,6 +152,146 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-如何通过loss曲线诊断神经网络" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/05/23/如何通过loss曲线诊断神经网络/">如何通过loss曲线诊断神经网络</a>
+    </h1>
+  
+
+        
+        <a href="/2020/05/23/如何通过loss曲线诊断神经网络/" class="archive-article-date">
+  	<time datetime="2020-05-23T11:45:28.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-23</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>一个好的模型既要防止欠拟合又要避免过拟合，那么如何判断一个模型是否训练得刚刚好？本文将会带领大家通过loss曲线直观地认识过拟合(overfit)、欠拟合(underfit)、完美拟合(good fit)。</p>
+<h3 id="欠拟合"><a href="#欠拟合" class="headerlink" title="欠拟合"></a>欠拟合</h3><p> 顾名思义，即拟合欠佳，也就是模型对训练集的学习能力不够。<br> <img src="/images/underfit.png" alt=""><br> 如图所示，train loss下降的非常平缓，以至于似乎并没有下降，这说明模型根本没从数据中学到东西。造成这种情况的可能原因以及相应对策如下：  </p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">可能的原因</th>
+<th style="text-align:left">解决策略</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">模型结构太简单</td>
+<td style="text-align:left">适当增加模型复杂度（比如：增加网络层数和神经元数）</td>
+</tr>
+<tr>
+<td style="text-align:left">权重初始化有问题</td>
+<td style="text-align:left">选择合适的初始化方案，如：全零初始化、随机正态分布、随机均匀分布</td>
+</tr>
+<tr>
+<td style="text-align:left">优化器和学习率不合适</td>
+<td style="text-align:left">一般的优化器用adam，行不通时要用SGD + 可调节的学习率（先大后小）</td>
+</tr>
+<tr>
+<td style="text-align:left">训练时间不足</td>
+<td style="text-align:left">适当增大epoch，增加训练时间</td>
+</tr>
+<tr>
+<td style="text-align:left">数据集有问题</td>
+<td style="text-align:left">当噪声过大，或标注有大量错误时会使神经网络难以从中学到有用的信息</td>
+</tr>
+<tr>
+<td style="text-align:left">未归一化</td>
+<td style="text-align:left">将数据缩放到一定范围能解决尺度不平衡问题</td>
+</tr>
+</tbody>
+</table>
+<h3 id="过拟合"><a href="#过拟合" class="headerlink" title="过拟合"></a>过拟合</h3><p> 过拟合是指模型学过头了，以至于把一些噪声和随机波动也学进来了。如图所示，当Train loss还在继续下降时，valid loss在某一时刻已经不再下降反而上升了。<br> <img src="/images/overfit.png" alt=""><br> 过拟合可能出现的原因及相应对策</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">可能的原因</th>
+<th style="text-align:left">解决策略</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">训练时间过长</td>
+<td style="text-align:left">从开始出现拐点的地方终止训练</td>
+</tr>
+<tr>
+<td style="text-align:left">模型过于复杂</td>
+<td style="text-align:left">适当增加L1、L2、dropout、batchnormalization正则化</td>
+</tr>
+<tr>
+<td style="text-align:left">数据量太少</td>
+<td style="text-align:left">适当增加训练数据或者减少模型参数</td>
+</tr>
+</tbody>
+</table>
+<h3 id="完美拟合"><a href="#完美拟合" class="headerlink" title="完美拟合"></a>完美拟合</h3><p>  完美拟合是我们的最终目标，从图上直观看就是：train loss 和validation loss都收敛，并且中间相差很小很小。<br> <img src="/images/goodfit.png" alt=""></p>
+<h3 id="附loss曲线可视化代码："><a href="#附loss曲线可视化代码：" class="headerlink" title="附loss曲线可视化代码："></a>附loss曲线可视化代码：</h3><pre><code>plt.plot(history.history[&apos;loss&apos;])
+plt.plot(history.history[&apos;val_loss&apos;])
+plt.title(&apos;model loss&apos;)
+plt.ylabel(&apos;loss&apos;)
+plt.xlabel(&apos;epoch&apos;)
+plt.legend([&apos;train&apos;, &apos;validation&apos;], loc=&apos;upper left&apos;)
+plt.show()
+</code></pre>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/05/23/如何通过loss曲线诊断神经网络/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-神经网络优化算法的选择" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -661,7 +801,7 @@
 <ol>
 <li>先在官网下载并安装anaconda3;  </li>
 <li>再在官网下载并安装gurobi9.0，两个软件必须要么都是64bit，要么都是32bit;  </li>
-<li>根据官网文档提示申请lisence，我是通过给<br>help <a href="mailto:&#104;&#x65;&#108;&#112;&#x40;&#x67;&#x75;&#114;&#111;&#x62;&#105;&#46;&#x63;&#110;" target="_blank" rel="noopener">&#104;&#x65;&#108;&#112;&#x40;&#x67;&#x75;&#114;&#111;&#x62;&#105;&#46;&#x63;&#110;</a>发送我的学生证和lisence申请表获得免费lisence的;  </li>
+<li>根据官网文档提示申请lisence，我是通过给<br>help <a href="mailto:&#x68;&#101;&#x6c;&#x70;&#x40;&#103;&#x75;&#x72;&#111;&#x62;&#105;&#x2e;&#x63;&#110;" target="_blank" rel="noopener">&#x68;&#101;&#x6c;&#x70;&#x40;&#103;&#x75;&#x72;&#111;&#x62;&#105;&#x2e;&#x63;&#110;</a>发送我的学生证和lisence申请表获得免费lisence的;  </li>
 <li>申请到免费lisence后，在F:\Installer\gurobi\bin目录下的grbgetkey.exe激活lisence;  </li>
 <li>最后将gurobi添加到anaconda里，先把gurobi文件夹复制到anaconda的Lib文件夹中，由于conda安装gurobi时总是出现网络错误，<br>因此我是在F:\Installer\gurobi下进行如图操作：<img src="/images/setup.jpg" alt=""></li>
 </ol>
@@ -880,125 +1020,6 @@
 
 
   
-    <article id="post-Python基础学习（上）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/11/01/Python基础学习（上）/">Python基础入门</a>
-    </h1>
-  
-
-        
-        <a href="/2019/11/01/Python基础学习（上）/" class="archive-article-date">
-  	<time datetime="2019-11-01T02:09:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-01</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="Python是什么？"><a href="#Python是什么？" class="headerlink" title="Python是什么？"></a>Python是什么？</h3><p>Python是一种解释器。<br>解释器的作用是什么？<br>解释器是用来运行文件的，是为了把程序员的编程语言解释成机器语言（0,1）。<br>解释器包括cpython和ipython. 通常我们会用pycharm集成开发环境IDE来做Python开发，它的好处有：</p>
-<ul>
-<li>project管理</li>
-<li>智能提示</li>
-<li>调试代码</li>
-<li>解释代吗<h3 id="pycharm修改解释器"><a href="#pycharm修改解释器" class="headerlink" title="pycharm修改解释器"></a>pycharm修改解释器</h3>【project：项目名称】–【project interpreter】–【设置图标】–【Add】–浏览到目标解释器<h4 id="项目管理"><a href="#项目管理" class="headerlink" title="项目管理"></a>项目管理</h4></li>
-<li>打开项目<br>[file]–[open]–浏览选择目标项目根目录–[ok]–选择打开项目方式{this window, new window, attach}</li>
-<li>关闭项目<br>[file]–[close project]/[close project in current window]</li>
-<li>注释<br>单行注释    # (ctrl+/)<br>多行注释    成对单引或者成对双引<br>“””<br>balabala<br>balabala<br>“””</li>
-</ul>
-<p>‘’’balabala<br>  balabala<br>‘’’</p>
-<h3 id="变量命名规则"><a href="#变量命名规则" class="headerlink" title="变量命名规则"></a>变量命名规则</h3><p>大驼峰：每个单词首字母大写，如：MyName<br>小驼峰：第二个（含）以后的单词首字母大写，如：myName<br>下划线：如my_name<br>变量是临时存储在内存中的，一旦程序执行完毕，变量也就跟着消失了</p>
-<h3 id="格式化输出"><a href="#格式化输出" class="headerlink" title="格式化输出"></a>格式化输出</h3><ul>
-<li>s%   字符串   [%s功能比较强大，可以输出整型和浮点型的数据]</li>
-<li>d%   十进制整数</li>
-<li>f%   浮点数<br>格式化输出多个数时，<br>1.用%(多个变量名用逗号隔开)<br>print(‘我是%s, 今年%d, 学号是%d’ % (name, age, stu_id))<br>2.用f‘’格式输出<br>print(f’我是{Tom}, 今年{18}岁，学号是{1} ‘)  语法是：f ‘{变量名/表达式}’  python3.6<br>3.两个小技巧<br>小数点后保留两位：%.2f<br>三位格式的数字输出：%03d<br>4.常用的两个转义字符 </li>
-<li>\n   换行</li>
-<li>\t   制表符，一个tab键等于4个空格<h3 id="输入函数"><a href="#输入函数" class="headerlink" title="输入函数"></a>输入函数</h3>输入函数为input( ‘提示信息’ )<br>当程序执行到input，程序处于等待用户输入状态，输入完成后程序才能继续向下执行。<br>函数input接收到的数据一般存到一个变量中（程序用来验证数据是否已经接收成功）。<br>函数input接收到的数据是字符串类型，一般会转换成int型。<br>转换数据类型的函数有：</li>
-<li>int(x)     将对象x转换成整型</li>
-<li>float(x)   将对象x转换成浮点型</li>
-<li>str(x)     将对象x转换成字符串型</li>
-<li>eval(str)  用来计算在字符串中的有效python表达式，并返回一个对象（将对象转换成字符串里面的表达式）</li>
-<li>str=’(1, 2, 3)’   eval(str) 后变成了 str1=(1, 2, 3)</li>
-<li>tuple(s)   将序列s转换为一个元组</li>
-<li>list(s)    将序列s转换为一个列表<h3 id="pycharm交互式开发"><a href="#pycharm交互式开发" class="headerlink" title="pycharm交互式开发"></a>pycharm交互式开发</h3>python console 类似于jupyter的交互式功能，即不需要用print输出函数，能快速便捷地给出变量的值。<br>console缺点：只是把变量的值简单存储在了临时变量中而不能存在硬盘上，后面需要用的时候就会找不到了。<br>因此只能进行简单测试，复杂的测试还是需要测试.py文件的留存代码。<h3 id="运算符的分类"><a href="#运算符的分类" class="headerlink" title="运算符的分类"></a>运算符的分类</h3>算数运算符       +-<em>/   图片: <a href="https://uploader.shimo.im/f/RrLdyGRksXoEdhJO.png" target="_blank" rel="noopener">https://uploader.shimo.im/f/RrLdyGRksXoEdhJO.png</a><br>赋值运算符       等号左边的变量 = 将等号右边的结果赋给<br>复合赋值运算符   c+=a   即  c = c+a;  c-=a  即 c = c-a<br>举个栗子：c=10; c</em>= 1+2;   # 先算复合赋值运算右边表达式1+2=3， 再算复合赋值运算符的算数运算，因此最后c=10*3=30<br>比较运算符      返回对象是布尔型（false or true）<br>逻辑运算符      and/or/not，返回对象是布尔型<br>and: 如果参与逻辑运算的两个数字，只要有一个为0，则and之后的结果为0；否则结果为最后一个非0数字。<br>a=0, b=1, c=2<br>a and b  #0<br>b and c  #2<br>c and b  #1<br>or：只有所有值为0结果才为0，否则结果返回第一个非0数字<br>a or b  #1<br>b or c  #1<br>c or b  #2<h3 id="条件判断语句-每次只执行一次语句，满足条件的语句执行，不满足的不执行"><a href="#条件判断语句-每次只执行一次语句，满足条件的语句执行，不满足的不执行" class="headerlink" title="条件判断语句 (每次只执行一次语句，满足条件的语句执行，不满足的不执行)"></a>条件判断语句 (每次只执行一次语句，满足条件的语句执行，不满足的不执行)</h3>if 条件1：<pre><code>执行语句1
-</code></pre>elif  条件2：<pre><code>执行语句2 
-</code></pre>else:<pre><code>执行语句3       
-</code></pre><h3 id="用Python表示随机数"><a href="#用Python表示随机数" class="headerlink" title="用Python表示随机数"></a>用Python表示随机数</h3>从random模块导入random,randint(start, end)函数<h3 id="三目（元）运算符"><a href="#三目（元）运算符" class="headerlink" title="三目（元）运算符"></a>三目（元）运算符</h3>条件成立的表达式  if  条件  else  条件不成立的表达式<h3 id="while循环"><a href="#while循环" class="headerlink" title="while循环"></a>while循环</h3>while 条件：<pre><code>条件成立重复执行的代码1
-条件成立重复执行的代码2
-</code></pre>用计数器时，初始值一般设为i=0而不是i=1, 循环结束条件一般设为i&lt;5而不是i&lt;=4<br>break 和 continue<br>break 是终止此循环，即第三个苹果吃完后不再吃第四个、第五个<br>continue 是退出当前循环继续执行下一次代码，即第三个不能吃之后，继续吃第四个和第五个，注意continue之前一定要进行计数器处理，否则会进入死循环<br>if i == 3:<br> i += 1<br> continue<br>while…else<br>while 条件：<pre><code>条件成立重复执行的代码
-</code></pre>else：<pre><code>循环正常结束后要执行的代码   # while中如果用break跳出循环，则不执行此代码
-                                                    # 如果用continue跳出循环，则执行此代码
-</code></pre>for 循环语句<br>for 临时变量 in 序列：<br>   重复执行的代码1<br>   重复执行的代码2<br>for…else            #  else指的是循环正常结束之后要执行的代码，即break终止循环的情况，else下方缩进的代码将不执行<br>for 临时变量 in 序列：<br>   重复执行的代码<br>else:<br>   循环结束之后要执行的代码<h3 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h3>1.学习字符串的必要性：<br>1).文件的读写内容属于字符串类型<br>2).从网页上爬到的数据属于字符串类型<br>3).input函数得到的数据属于字符串类型<br>单引号（’ ‘）、双引号(“ “)、单三引号(‘’’  ‘’’)、双三引号(“”” “””)三种方式都能用来表示字符串，不同点在于三引号支持换行。<br>如 ‘hello world’<br>‘’’ hello<br>world’’’<br>当字符串中存在缩写，即出现单个单引号时，要么给整条字符串用双引号；要么给缩写处的单引号加转义字符\<br>str = ‘abcdef’<br>把这个字符串赋给str这个变量临时存储在内存中，计算机会为所有的字符分配一个下标，从零开始计数，如果要精确地取某一个字符，只需要str[下标]即可。<br>2.切片<br>[start, end, step]：左闭右开型</li>
-<li>字符串常用操作方法<br>查找子串在字符串中的位置或者次数 （start, end参数可以省略，表示在整个字符串中查找）<br>用 find(子串，start, end) 检查某个字串是否在这个字符串中,如果存在则会返回子串的首字符所在的下标；如果不存在则返回-1<br>用 index(子串，start, end) 检查某个字串是否在这个字符串中如果存在，就会返回子串首字符所在的下标；如果不存在则报错<br>用 count(子串, start, end) 表示子串出现的次数，如过不存在则为0<br>rfind()，rindex() 对一个序列从后向前查找子串</li>
-<li>修改旧字符串的方法<br>用replace(旧子串， 新子串，替换次数) 如果替换次数参数不写，则表示替换所有旧子串<br>oldstr = ‘myname’<br>newstr = oldstr.replace(‘y’, ‘e’)<br>print newstr: mename；           oldstr: myname<br>说明     # replace不会修改旧字符串，只是把新字符串作为返回值返回给了新的变量，说明字符串是不可变数据类型</li>
-<li>分割字符串<br>用split(分割字符，分割字符出现的次数)，返回一个列表数据，返回次数+1个字符<br>join()：用一个字符或字符串合并字符串，即将多个字符串合并为一个新的字符串</li>
-<li>字符串大小写转换<br>capitalize():将字符串第一个字符转换成大写<br>title():将字符串每个单词首字母转换成大小写<br>lower():将大写转小写<br>upper():将小写转大写</li>
-<li>字符串对齐<br>rjust(长度，填充字符)     # 字符串右对齐<br>ljust(长度， 填充字符)     # 字符串左对齐<br>center(长度，填充字符)  # 字符串居中齐</li>
-<li>字符串判断<br>startswith(子串, start, end)  检查字符串是否以指定子串开头，是则返回true，不是则返回false<br>endswith(子串, start, end) 检查字符串是否以指定子串结尾，是则返回true,不是则返回false<br>isalpha(): 如果非空字符串中所有字符都是字母则返回true，否则返回false<br>isdigit(): 如果所有字符只包含数字则返回true, 否则返回false<br>isalnum(): 如果字符串由数字或字母或者两者组合则返回true,否则返回false<br>isspace():如果字符串中只含有空格则返回true, 否则返回false<h3 id="列表的形式、常用操作"><a href="#列表的形式、常用操作" class="headerlink" title="列表的形式、常用操作"></a>列表的形式、常用操作</h3></li>
-<li>列表的格式<br>[数据1，数据2，数据3….]<h4 id="列表常用操作"><a href="#列表常用操作" class="headerlink" title="列表常用操作"></a>列表常用操作</h4>1.用下标进行精准查找  list[下标]<br>2.index(数据， start, end)返回指定数据所在位置的下标<br>3.count(数据)返回指定数据在序列中出现的次数<br>4.len(序列)返回序列中数据存在的个数<br>5.查找某个数据是否存在用 in 或者 not in，在则返回true，不在则返回false  应用案例：注册邮箱账号</li>
-<li>插入数据操作<br>1.在序列末端添加一个数据用append(数据)和extend(数据)，不同点在于当追加一个序列时，append是将整个序列追加到原序列，而extend会把序列拆开，然后逐一追加原序列中<br>list=[‘Tom’, ‘Ann’]<br>newlist = list.extend(‘xiao’)<br>newlist: [‘Tom’, ‘Ann’, ‘x’, ‘i’, ‘a’, ‘o’]<br>2.在指定位置添加数据用insert(位置下标，数据)</li>
-<li>删除数据操作<br>1.删除整个列表用del list_name<br>2.删除指定位置下标的数据用pop(下标位置，数据)，函数返回要删除的数据<br>3.删除某个数据用remove(‘数据’)<br>4.清除列表中的数据用clear(),返回空列表</li>
-<li>修改数据操作<br>1.指定位置修改数据 list[i]=’value’<br>2.逆置：reverse()<br>3.排序（顺序和逆序）：sort()<br>4.复制：copy()</li>
-<li>列表数据的遍历<br>for i in list:<br>print(i)</li>
-<li>列表嵌套<br>[[],[],[]]<br>嵌套列表的查询可以看成是一个二维数组，list[i][j]</li>
-</ul>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Python</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/11/01/Python基础学习（上）/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -1096,15 +1117,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Python</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">与自己对话</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">工具</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1112,11 +1125,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">游记</a>
+                <a href="javascript:void(0)" class="js-tag color3">工具</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Python</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">技术</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">游记</a>
               </li>
              
               <li class="article-tag-list-item">
